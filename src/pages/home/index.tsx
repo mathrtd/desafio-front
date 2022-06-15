@@ -1,6 +1,5 @@
 import { ChangeEvent, useState } from "react";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
 import CharacterCard from "src/components/CharacterCard";
 import LoadingSpinner from "src/components/LoadingSpinner";
 import SearchBar from "src/components/SearchBar";
@@ -8,6 +7,11 @@ import { ApiService } from "src/services/api_service";
 import { CharactersFilters, CharactersWrapper, GridWrapper, HomeWrapper } from "./styles";
 import { CharacterDataWrapperProps, CharacterProps } from "./types";
 import logoPath from 'src/assets/logo.svg';
+import CheckInput from "src/components/CheckInput";
+import favIconPath from 'src/assets/favorito_01.svg';
+import favIconOutlinePath from 'src/assets/favorito_02.svg';
+
+let apiCharacters:CharacterProps[] | undefined;
 
 const Home: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -16,16 +20,31 @@ const Home: React.FC = () => {
   const [characterTotal, setCharacterTotal] = useState<number>();
   const [searchValue, setSearchValue] = useState<string>();
   const [reverseOrder, setReverseOrder] = useState<boolean>(false);
+  const [onlyFavorites, setOnlyFavorites] = useState<boolean>(false);
 
-
-
+  // hooks
   useEffect(() => {
-    let timer = setTimeout(() => getCharacters({ nameStartsWith: searchValue, reverse: false }), 500);
+    let timer = setTimeout(() => getCharacters({ nameStartsWith: searchValue, reverse: reverseOrder }), 500);
     return () => {
       clearTimeout(timer);
     };
-  }, [searchValue, reverseOrder])
+  }, [searchValue])
 
+  useEffect(() => {
+    getCharacters({ nameStartsWith: searchValue, reverse: reverseOrder })
+  }, [reverseOrder])
+
+  useEffect(() => {
+    if (onlyFavorites) {
+      let currentFavorites: CharacterProps[] = JSON.parse(localStorage.getItem('favoritesList') ?? "[]");
+      apiCharacters = characters;
+      setCharacters(currentFavorites)
+    } else {
+      setCharacters(apiCharacters);
+    }
+  }, [onlyFavorites])
+
+  // api calls
   const getCharacters = async (params?: { nameStartsWith?: string, offset?: number, reverse?: boolean }) => {
     let localParams = {
       ...(params?.nameStartsWith && params?.nameStartsWith?.length > 0 ? { nameStartsWith: params?.nameStartsWith } : {}),
@@ -48,9 +67,43 @@ const Home: React.FC = () => {
     setIsLoading(false);
   }
 
+  // helpers
+  const isCharacterFavorite = (characterId?: number): boolean => {
+    let currentFavorites: CharacterProps[] = JSON.parse(localStorage.getItem('favoritesList') ?? "[]");
+    return !!currentFavorites.find((character) => character.id === characterId);
+  }
+
+  // input handlers
   const handleSearchBarChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(typeof e.target.value)
     setSearchValue(e.target.value)
+  }
+
+  const handleCheckInputChange = (newChecked: boolean, name?: string) => {
+    setReverseOrder(newChecked);
+  }
+
+  const handleFavoritesFilterChange = () => {
+    setOnlyFavorites(!onlyFavorites);
+  }
+
+  const handleFavoriteChange = (newValue: boolean, character?: CharacterProps) => {
+    if (!character) return;
+
+    // update local storage list
+    let currentFavorites: CharacterProps[] = JSON.parse(localStorage.getItem('favoritesList') ?? "[]");
+    if (newValue) {
+      if (currentFavorites.length >= 5) return;
+      currentFavorites.push(character);
+    } else {
+      const index = currentFavorites.map((character) => character.id).indexOf(character.id, 0);
+      if (index > -1) {
+        currentFavorites.splice(index, 1);
+      }
+    }
+    localStorage.setItem('favoritesList', JSON.stringify(currentFavorites));
+
+    // update screen
+    setCharacters([...(characters ?? [])])
   }
 
   return <HomeWrapper>
@@ -61,30 +114,40 @@ const Home: React.FC = () => {
       placeholder="Procure por heróis"
       onChange={handleSearchBarChange}
     />
+    <CharactersFilters>
+      <b>Encontrados {characterTotal ?? 0} heróis</b>
+      <div className="subgroup">
+        <CheckInput
+          label="Ordenar por nome - A/Z"
+          checked={reverseOrder}
+          onCheckChange={handleCheckInputChange}
+        />
+        <div onClick={() => handleFavoritesFilterChange()}>
+          <img src={onlyFavorites ? favIconPath : favIconOutlinePath}></img>
+          Somente favoritos
+        </div>
+      </div>
+    </CharactersFilters>
     {
       isLoading
         ? <LoadingSpinner />
         : <CharactersWrapper>
-          <CharactersFilters>
-            <b>Encontrados {characterTotal} heróis</b>
-            <div className="subgroup">
-              Ordenar por nome - A/Z
-              Somente favoritos
-            </div>
-          </CharactersFilters>
           <GridWrapper>
             {
-              characters?.map((character: CharacterProps) => {
+              characters?.map((character: CharacterProps, index: number) => {
                 return <CharacterCard
+                  key={index}
+                  characterId={character.id}
                   title={character.name}
                   imageUrl={`${character.thumbnail?.path}.${character.thumbnail?.extension}`}
+                  onFavoriteChange={(newValue, _) => handleFavoriteChange(newValue, character)}
+                  favorite={isCharacterFavorite(character.id)}
                 />
               })
             }
           </GridWrapper>
         </CharactersWrapper>
     }
-    <Link to="/details">ir para details</Link>
   </HomeWrapper>
 }
 

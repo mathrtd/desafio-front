@@ -38,3 +38,18 @@ export const CharacterInfo = styled.div`
     text-overflow: ellipsis;
   }
 `
+
+export const FavoriteIconWrapper = styled.div`
+  .hover-favorite-icon {
+    display: none;
+  }
+
+  &:hover {
+    .hover-favorite-icon {
+      display: block;
+    }
+    .default-favorite-icon {
+      display: none;
+    }
+  }
+`

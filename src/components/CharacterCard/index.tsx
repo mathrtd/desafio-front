@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
-import { CharacterCardWrapper, CharacterImage, CharacterInfo } from './styles';
+import { CharacterCardWrapper, CharacterImage, CharacterInfo, FavoriteIconWrapper } from './styles';
 import { CharacterCardProps } from './types';
 import favIconPath from 'src/assets/favorito_01.svg';
+import favIconOutlinePath from 'src/assets/favorito_02.svg';
+import favIconHoverPath from 'src/assets/favorito_03.svg';
 import logoPath from 'src/assets/marvel_logo.svg';
 
 const CharacterCard: React.FC<CharacterCardProps> = ({...props}) => {
@@ -21,7 +23,12 @@ const CharacterCard: React.FC<CharacterCardProps> = ({...props}) => {
       />
       <CharacterInfo>
         <p>{props.title}</p>
-        <img src={favIconPath}/>
+        <FavoriteIconWrapper
+          onClick={(_) => props.onFavoriteChange?.(!props.favorite ?? false, props.characterId)}
+        >
+          <img className="default-favorite-icon" src={props.favorite ? favIconPath : favIconOutlinePath}/>
+          <img className="hover-favorite-icon" src={favIconHoverPath}/>
+        </FavoriteIconWrapper>
       </CharacterInfo>
     </CharacterCardWrapper>
   )

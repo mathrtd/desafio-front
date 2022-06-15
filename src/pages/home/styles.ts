@@ -12,8 +12,15 @@ export const CharactersWrapper = styled.div`
 ` 
 
 export const CharactersFilters = styled.div`
+  width: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  
+  .subgroup {
+    display: flex;
+    align-items: center;
+  }
 `
 
 export const GridWrapper = styled.div`

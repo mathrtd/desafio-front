@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const SearchBarWrapper = styled.div`
   width: 100%;
+  max-width: calc(100% - 32px);
   position: relative;
   margin-left: -32px;
 `
