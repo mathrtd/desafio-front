@@ -1,10 +1,10 @@
-export interface HeroCardProps {
+export interface CharacterCardProps {
   imageUrl?: string;
   title?: string;
   favorite?: boolean;
   url?: string;
 }
 
-export interface HeroImageProps {
+export interface CharacterImageProps {
   imageUrl?: string;
 }

@@ -1,15 +1,20 @@
 import React from 'react';
-import HeroCard from './components/HeroCard/HeroCard';
-import SearchBar from './components/SearchBar/SearchBar';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import './App.css';
+import Details from './pages/details';
+import Home from './pages/home';
+import { AppWrapper } from './styles';
 
 export const App: React.FC = () => {
   return (
-    <div className="App">
-      abc
-      <HeroCard
-        imageUrl="https://portaldasmalas.com.br/blog-portal/wp-content/uploads/2019/01/bagagem-de-mao.jpg"
-      />
-    </div>
+		<AppWrapper>
+			<BrowserRouter>
+				<Routes>
+					<Route element={<Home/>} path="/" />
+					<Route element={<Details/>} path="/details" />
+				</Routes>
+			</BrowserRouter>
+		</AppWrapper>
   );
 }
 

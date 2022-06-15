@@ -1,15 +1,21 @@
 import styled from 'styled-components';
-import { HeroImageProps } from './types';
+import { CharacterImageProps } from './types';
 
-export const HeroCardWrapper = styled.div`
+export const CharacterCardWrapper = styled.div`
+  transition: 0.3s;
+  cursor: pointer;
   width: 160px;
-  box-shadow: 2px 2px 1rem #888888;
+  box-shadow: 2px 2px 1rem rgba(0, 0, 0, 0.5);
 
   border-radius: 16px;
   overflow: hidden;
+
+  &:hover {
+    box-shadow: 2px 2px 1rem rgba(0, 0, 0, 1);
+  }
 `
 
-export const HeroImage = styled.div<HeroImageProps>`
+export const CharacterImage = styled.div<CharacterImageProps>`
   width: 100%;
   height: 160px;
   background-image: url(${props => props.imageUrl});
@@ -17,14 +23,15 @@ export const HeroImage = styled.div<HeroImageProps>`
   background-position: center;
 `
 
-export const HeroInfo = styled.div`
+export const CharacterInfo = styled.div`
   display: flex;
   justify-content: space-between;
   border-top: 2px solid red;
-  padding: 4px;
+  padding: 8px;
   background-color: #FFFFFF;
 
   p {
+    font-weight: bold;
     margin: 0;
     white-space: nowrap;
     overflow: hidden;

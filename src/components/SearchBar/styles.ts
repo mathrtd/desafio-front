@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 
 export const SearchBarWrapper = styled.div`
-  width: 280px;
+  width: 100%;
   position: relative;
+  margin-left: -32px;
 `
 
 export const IconWrapper = styled.div`
