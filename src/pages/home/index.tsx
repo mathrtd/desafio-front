@@ -4,12 +4,14 @@ import CharacterCard from "src/components/CharacterCard";
 import LoadingSpinner from "src/components/LoadingSpinner";
 import SearchBar from "src/components/SearchBar";
 import { ApiService } from "src/services/api_service";
-import { CharactersFilters, CharactersWrapper, GridWrapper, HomeWrapper } from "./styles";
-import { CharacterDataWrapperProps, CharacterProps } from "./types";
+import { CharactersFilters, CharactersWrapper, HomeWrapper } from "./styles";
+import { CharacterDataWrapperProps, CharacterProps } from "src/models/character";
 import logoPath from 'src/assets/logo.svg';
 import CheckInput from "src/components/CheckInput";
 import favIconPath from 'src/assets/favorito_01.svg';
 import favIconOutlinePath from 'src/assets/favorito_02.svg';
+import { useNavigate } from "react-router-dom";
+import Grid from "src/components/Grid";
 
 let apiCharacters:CharacterProps[] | undefined;
 
@@ -21,6 +23,7 @@ const Home: React.FC = () => {
   const [searchValue, setSearchValue] = useState<string>();
   const [reverseOrder, setReverseOrder] = useState<boolean>(false);
   const [onlyFavorites, setOnlyFavorites] = useState<boolean>(false);
+  const navigate = useNavigate()
 
   // hooks
   useEffect(() => {
@@ -106,6 +109,10 @@ const Home: React.FC = () => {
     setCharacters([...(characters ?? [])])
   }
 
+  const handleCharacterCardClick = (characterId?: number) => {
+    navigate(`details/${characterId}`);
+  }
+
   return <HomeWrapper>
     <img src={logoPath} />
     <h2>EXPLORE O UNIVERSO</h2>
@@ -132,7 +139,12 @@ const Home: React.FC = () => {
       isLoading
         ? <LoadingSpinner />
         : <CharactersWrapper>
-          <GridWrapper>
+          {/* <GridWrapper> */}
+          <Grid
+            columnCount={4}
+            gap="32px"
+            minWidth="160px"
+          >
             {
               characters?.map((character: CharacterProps, index: number) => {
                 return <CharacterCard
@@ -142,10 +154,12 @@ const Home: React.FC = () => {
                   imageUrl={`${character.thumbnail?.path}.${character.thumbnail?.extension}`}
                   onFavoriteChange={(newValue, _) => handleFavoriteChange(newValue, character)}
                   favorite={isCharacterFavorite(character.id)}
+                  onClick={handleCharacterCardClick}
                 />
               })
             }
-          </GridWrapper>
+          </Grid>
+          {/* </GridWrapper> */}
         </CharactersWrapper>
     }
   </HomeWrapper>

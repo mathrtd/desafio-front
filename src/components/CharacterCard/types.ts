@@ -5,6 +5,7 @@ export interface CharacterCardProps {
   favorite?: boolean;
   url?: string;
   onFavoriteChange?: (newValue: boolean, characterId?: number) => void;
+  onClick?: (characterId?: number) => void;
 }
 
 export interface CharacterImageProps {

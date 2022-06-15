@@ -1,3 +1,6 @@
+import { ComicListProps } from "./comic";
+import { ImageProps } from "./helpers";
+
 export interface CharacterDataWrapperProps {
   code?: number;
   status?: string;
@@ -8,17 +11,12 @@ export interface CharacterDataWrapperProps {
   etag?: string;
 }
 
-interface CharacterDataContainerProps {
+export interface CharacterDataContainerProps {
   offset?: number;
   limit?: number;
   total?: number;
   count?: number;
   results?: CharacterProps[];
-}
-
-interface ImageProps {
-  path?: string;
-  extension?: string;
 }
 
 export interface CharacterProps {
@@ -29,4 +27,5 @@ export interface CharacterProps {
   resourceURI?: string;
   urls?: string[];
   thumbnail?: ImageProps;
+  comics?: ComicListProps;
 }

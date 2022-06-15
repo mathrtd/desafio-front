@@ -11,7 +11,7 @@ export const App: React.FC = () => {
 			<BrowserRouter>
 				<Routes>
 					<Route element={<Home/>} path="/" />
-					<Route element={<Details/>} path="/details" />
+					<Route element={<Details/>} path="/details/:characterId" />
 				</Routes>
 			</BrowserRouter>
 		</AppWrapper>

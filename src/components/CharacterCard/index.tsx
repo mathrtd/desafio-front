@@ -17,7 +17,9 @@ const CharacterCard: React.FC<CharacterCardProps> = ({...props}) => {
   };
 
   return (
-    <CharacterCardWrapper>
+    <CharacterCardWrapper
+      onClick={() => props.onClick?.(props.characterId)}
+    >
       <CharacterImage
         imageUrl={localImageUrl}
       />
