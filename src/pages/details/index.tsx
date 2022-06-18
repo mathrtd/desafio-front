@@ -45,11 +45,11 @@ const Details: React.FC = () => {
         setIsFavorite(isCharacterFavorite(parseInt(params.characterId ?? '1')))
         setCharacter(characterResults.value);
         setComics(comicsResults.value);
-        setIsLoading(false);
+        setHasError(false);
       } else {
         setHasError(true);
       }
-    })
+    }).finally(() => setIsLoading(false))
   }, [])
 
   useEffect(() => {
@@ -105,57 +105,59 @@ const Details: React.FC = () => {
     {
       isLoading
         ? <LoadingSpinner />
-        : <>
-          <CharacterDetailsSection
-            imageUrl={`${character?.thumbnail?.path}.${character?.thumbnail?.extension}`}
-          >
-            <div className="left-section">
-              <h1>
-                {character?.name}
-                <div
-                  className="favorite-icon-wrapper"
-                  onClick={() => handleFavoriteChange()}
+        : hasError
+          ? <b>Ops, tivemos um problema. Tente atualizar a página.</b>
+          : <>
+              <CharacterDetailsSection
+                imageUrl={`${character?.thumbnail?.path}.${character?.thumbnail?.extension}`}
+              >
+                <div className="left-section">
+                  <h1>
+                    {character?.name}
+                    <div
+                      className="favorite-icon-wrapper"
+                      onClick={() => handleFavoriteChange()}
+                    >
+                      <img className="default-favorite-icon" src={isFavorite ? favIconPath : favIconOutlinePath} />
+                      <img className="hover-favorite-icon" src={favIconHoverPath} />
+                    </div>
+                  </h1>
+                  <p>{character?.description ?? 'N/A'}</p>
+                  <Row>
+                    <div>
+                      <span>Quadrinhos</span><br />
+                      <img src={comicsIconPath} />3000
+                    </div>
+                    <div>
+                      <span>Filmes</span><br />
+                      <img src={moviesIconPath} />3000
+                    </div>
+                  </Row>
+                </div>
+                <div className="right-section">
+                  {/* <img src={`${character?.thumbnail?.path}.${character?.thumbnail?.extension}`}/> */}
+                </div>
+              </CharacterDetailsSection>
+              <LatestReleasesSection>
+                <h4>Últimos lançamentos</h4>
+                <Grid
+                  columnCount={6}
+                  gap="32px"
+                  minWidth="160px"
                 >
-                  <img className="default-favorite-icon" src={isFavorite ? favIconPath : favIconOutlinePath} />
-                  <img className="hover-favorite-icon" src={favIconHoverPath} />
-                </div>
-              </h1>
-              <p>{character?.description ?? 'N/A'}</p>
-              <Row>
-                <div>
-                  <span>Quadrinhos</span><br />
-                  <img src={comicsIconPath} />3000
-                </div>
-                <div>
-                  <span>Filmes</span><br />
-                  <img src={moviesIconPath} />3000
-                </div>
-              </Row>
-            </div>
-            <div className="right-section">
-              {/* <img src={`${character?.thumbnail?.path}.${character?.thumbnail?.extension}`}/> */}
-            </div>
-          </CharacterDetailsSection>
-          <LatestReleasesSection>
-            <h4>Últimos lançamentos</h4>
-            <Grid
-              columnCount={6}
-              gap="32px"
-              minWidth="160px"
-            >
-              {
-                comics?.map((comic, index) => {
-                  return <InfoCard
-                    key={index}
-                    title={comic.title}
-                    imageUrl={`${comic.thumbnail?.path}.${comic.thumbnail?.extension}`}
-                    backgroundPosition={'top'}
-                  />
-                })
-              }
-            </Grid>
-          </LatestReleasesSection>
-        </>
+                  {
+                    comics?.map((comic, index) => {
+                      return <InfoCard
+                        key={index}
+                        title={comic.title}
+                        imageUrl={`${comic.thumbnail?.path}.${comic.thumbnail?.extension}`}
+                        backgroundPosition={'top'}
+                      />
+                    })
+                  }
+                </Grid>
+              </LatestReleasesSection>
+            </>
     }
   </DetailsWrapper>
 }

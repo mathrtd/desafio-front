@@ -30,11 +30,11 @@ const Home: React.FC = ({ ...props }) => {
   const [onlyFavorites, setOnlyFavorites] = useState<boolean>(false);
   const navigate = useNavigate();
   const { state } = useLocation();
-  
+
   // hooks
   useEffect(() => {
     if (isMounting) {
-      let params:HomeParamsProps = state as HomeParamsProps;
+      let params: HomeParamsProps = state as HomeParamsProps;
       let query = params?.query;
       if (query) {
         setSearchValue(query);
@@ -78,16 +78,15 @@ const Home: React.FC = ({ ...props }) => {
       orderBy: params?.reverse ? '-name' : 'name'
     }
     setIsLoading(true);
-    setHasError(false);
     let resp = await ApiService.api.get(
       'characters',
       { params: localParams }
-
     );
     if (resp.status === 200) {
       let characterDataWrapper: CharacterDataWrapperProps = resp.data
       setCharacterTotal(characterDataWrapper.data?.total)
       setCharacters(characterDataWrapper.data?.results)
+      setHasError(false);
     } else {
       setHasError(true);
     }
@@ -142,30 +141,32 @@ const Home: React.FC = ({ ...props }) => {
     {
       isLoading
         ? <LoadingSpinner />
-        : <CharactersWrapper>
-          {/* <GridWrapper> */}
-          <Grid
-            columnCount={4}
-            gap="32px"
-            minWidth="160px"
-          >
-            {
-              characters?.map((character: CharacterProps, index: number) => {
-                return <InfoCard
-                  key={index}
-                  cardId={character.id}
-                  title={character.name}
-                  imageUrl={`${character.thumbnail?.path}.${character.thumbnail?.extension}`}
-                  favorite={isCharacterFavorite(character.id)}
-                  onFavoriteChange={(newValue, _) => handleFavoriteChange(newValue, character)}
-                  onClick={handleCharacterCardClick}
-                  showFavoriteIcon
-                />
-              })
-            }
-          </Grid>
-          {/* </GridWrapper> */}
-        </CharactersWrapper>
+        : hasError 
+          ? <b>Ops, tivemos um problema. Tente atualizar a página.</b>
+          : <CharactersWrapper>
+              {/* <GridWrapper> */}
+              <Grid
+                columnCount={4}
+                gap="32px"
+                minWidth="160px"
+              >
+                {
+                  characters?.map((character: CharacterProps, index: number) => {
+                    return <InfoCard
+                      key={index}
+                      cardId={character.id}
+                      title={character.name}
+                      imageUrl={`${character.thumbnail?.path}.${character.thumbnail?.extension}`}
+                      favorite={isCharacterFavorite(character.id)}
+                      onFavoriteChange={(newValue, _) => handleFavoriteChange(newValue, character)}
+                      onClick={handleCharacterCardClick}
+                      showFavoriteIcon
+                    />
+                  })
+                }
+              </Grid>
+              {/* </GridWrapper> */}
+            </CharactersWrapper>
     }
   </HomeWrapper>
 }
