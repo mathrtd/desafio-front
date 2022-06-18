@@ -1,15 +1,16 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Grid from "src/components/Grid";
 import InfoCard from "src/components/InfoCard";
 import { CharacterDataWrapperProps, CharacterProps } from "src/models/character";
-import { ComicDataWrapperProps, ComicProps } from "src/models/comic";
+import { ComicDataContainerProps, ComicDataWrapperProps, ComicProps } from "src/models/comic";
 import { ApiService } from "src/services/api_service";
 import { CharacterDetailsHeader, CharacterDetailsSection, ComicImage, ComicWrapper, DetailsWrapper, LatestReleasesSection } from "./styles";
-import { Row } from "src/styles";
+import { Column, Row } from "src/styles";
 import updateFavoriteCharacters from "src/helpers/updateFavoriteCharacters";
 import isCharacterFavorite from "src/helpers/isCharacterFavorite";
 import SearchBar from "src/components/SearchBar";
+import LoadingSpinner from "src/components/LoadingSpinner";
 
 import favIconPath from 'src/assets/favorito_01.svg';
 import favIconOutlinePath from 'src/assets/favorito_02.svg';
@@ -17,7 +18,7 @@ import favIconHoverPath from 'src/assets/favorito_03.svg';
 import comicsIconPath from 'src/assets/ic_quadrinhos.svg';
 import moviesIconPath from 'src/assets/ic_trailer.svg';
 import logoPath from 'src/assets/logo_menor.svg';
-import LoadingSpinner from "src/components/LoadingSpinner";
+import starIconPath from 'src/assets/avaliacao_on.svg';
 
 type PageParams = {
   characterId: string;
@@ -29,6 +30,7 @@ const Details: React.FC = () => {
   const [character, setCharacter] = useState<CharacterProps>()
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const [comics, setComics] = useState<ComicProps[]>();
+  const [comicsTotal, setComicsTotal] = useState<number>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [hasError, setHasError] = useState<boolean>(false);
   const navigate = useNavigate()
@@ -44,7 +46,8 @@ const Details: React.FC = () => {
       if (characterResults.status === "fulfilled" && comicsResults.status === "fulfilled") {
         setIsFavorite(isCharacterFavorite(parseInt(params.characterId ?? '1')))
         setCharacter(characterResults.value);
-        setComics(comicsResults.value);
+        setComics(comicsResults.value?.results);
+        setComicsTotal(comicsResults.value?.total);
         setHasError(false);
       } else {
         setHasError(true);
@@ -70,11 +73,11 @@ const Details: React.FC = () => {
     throw 'erro';
   }
 
-  const getCharacterComics = async (id: number): Promise<ComicProps[] | undefined> => {
+  const getCharacterComics = async (id: number): Promise<ComicDataContainerProps | undefined> => {
     const resp = await ApiService.api.get(`characters/${id}/comics?orderBy=-onsaleDate&limit=10`)
     if (resp.status === 200) {
       let characterDataWrapper: ComicDataWrapperProps = resp.data
-      return characterDataWrapper.data?.results
+      return characterDataWrapper.data
     }
     throw 'erro';
   }
@@ -99,6 +102,7 @@ const Details: React.FC = () => {
         onClick={() => navigate('/')}
       />
       <SearchBar
+        placeholder="Procure por heróis"
         onChange={handleSearchBarChange}
       />
     </CharacterDetailsHeader>
@@ -123,16 +127,24 @@ const Details: React.FC = () => {
                     </div>
                   </h1>
                   <p>{character?.description ?? 'N/A'}</p>
-                  <Row>
+                  <Column className="metrics">
+                    <Row className="counters">
+                      <div>
+                        <span>Quadrinhos</span><br />
+                        <img src={comicsIconPath} />{comicsTotal}
+                      </div>
+                      <div>
+                        <span>Filmes</span><br />
+                        <img src={moviesIconPath} />6
+                      </div>
+                    </Row>
                     <div>
-                      <span>Quadrinhos</span><br />
-                      <img src={comicsIconPath} />3000
+                      Rating: {Array.from(Array(5), (_, index) => <img key={index} src={starIconPath}></img>)}
                     </div>
                     <div>
-                      <span>Filmes</span><br />
-                      <img src={moviesIconPath} />3000
+                      Último quadrinho: {new Date(comics?.[0].dates?.find((date) => date.type === 'onsaleDate')?.date ?? Date()).toLocaleDateString('pt-BR')}
                     </div>
-                  </Row>
+                  </Column>
                 </div>
                 <div className="right-section">
                   {/* <img src={`${character?.thumbnail?.path}.${character?.thumbnail?.extension}`}/> */}

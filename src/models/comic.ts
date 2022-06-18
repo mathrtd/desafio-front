@@ -1,5 +1,7 @@
 import { ImageProps } from "./helpers";
 
+type ComicDateType = 'onsaleDate' | 'focDate'
+
 export interface ComicDataWrapperProps {
   code?: number;
   status?: string;
@@ -10,7 +12,7 @@ export interface ComicDataWrapperProps {
   etag?: string;
 }
 
-interface ComicDataContainerProps {
+export interface ComicDataContainerProps {
   offset?: number;
   limit?: number;
   total?: number;
@@ -30,7 +32,13 @@ interface ComicSummaryProps {
   name?: string;
 }
 
+interface ComicDateProps {
+  type?: ComicDateType;
+  date?: Date;
+}
+
 export interface ComicProps {
   title?: string;
   thumbnail?: ImageProps;
+  dates?: ComicDateProps[];
 }

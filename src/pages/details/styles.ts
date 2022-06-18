@@ -52,6 +52,13 @@ export const CharacterDetailsSection = styled.section<CharacterDetailsSectionPro
         }
       }
     }
+
+    .metrics {
+      gap: 16px;
+      .counters {
+        gap: 16px;
+      }
+    }
   }
 
   .right-section {
