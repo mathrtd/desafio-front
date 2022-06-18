@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import { CharacterImageProps } from './types';
+import { CardImageProps } from './types';
 
-export const CharacterCardWrapper = styled.div`
+export const InfoCardWrapper = styled.div<CardImageProps>`
   transition: 0.3s;
-  cursor: pointer;
+  ${props => !!props.onClick ? 'cursor: pointer;' : ''}
   width: 160px;
   box-shadow: 2px 2px 1rem rgba(0, 0, 0, 0.5);
 
@@ -11,19 +11,19 @@ export const CharacterCardWrapper = styled.div`
   overflow: hidden;
 
   &:hover {
-    box-shadow: 2px 2px 1rem rgba(0, 0, 0, 1);
+    ${props => !!props.onClick ? 'box-shadow: 2px 2px 1rem rgba(0, 0, 0, 1);' : ''}
   }
 `
 
-export const CharacterImage = styled.div<CharacterImageProps>`
+export const CardImage = styled.div<CardImageProps>`
   width: 100%;
   height: 160px;
   background-image: url(${props => props.imageUrl});
   background-size: cover;
-  background-position: center;
+  background-position: ${props => props.backgroundPosition ?? 'center'};
 `
 
-export const CharacterInfo = styled.div`
+export const CardInfo = styled.div`
   display: flex;
   justify-content: space-between;
   border-top: 2px solid red;

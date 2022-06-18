@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ComicImageProps } from './types';
+import { CharacterDetailsSectionProps, ComicImageProps } from './types';
 
 export const DetailsWrapper = styled.div`
   display: flex;
@@ -8,8 +8,60 @@ export const DetailsWrapper = styled.div`
   align-items: center;
 `
 
-export const CharacterDetailsSection = styled.section`
+export const CharacterDetailsHeader = styled.div`
   width: 100%;
+  margin-bottom: 16px;
+  display: flex;
+  img {
+    cursor: pointer;
+    margin-right: 32px;
+  }
+`
+
+export const CharacterDetailsSection = styled.section<CharacterDetailsSectionProps>`
+  width: 100%;
+  display: flex;
+
+  .left-section {
+    flex: 1;
+    margin-right: 16px;
+    h1 {
+      height: 32px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    img {
+      width: 24px;
+      height: 24px;
+      margin-right: 4px;
+    }
+
+    .favorite-icon-wrapper {
+      cursor: pointer;
+      .hover-favorite-icon {
+        display: none;
+      }
+    
+      &:hover {
+        .hover-favorite-icon {
+          display: block;
+        }
+        .default-favorite-icon {
+          display: none;
+        }
+      }
+    }
+  }
+
+  .right-section {
+    flex: 2;
+    width: 100%;
+    height: 320px;
+    background-image: url(${props => props.imageUrl});
+    background-size: cover;
+    background-position: center;
+  }
 `
 
 export const LatestReleasesSection = styled.section`

@@ -13,6 +13,7 @@ export const CharactersWrapper = styled.div`
 
 export const CharactersFilters = styled.div`
   width: 100%;
+  margin-bottom: 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;

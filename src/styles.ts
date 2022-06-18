@@ -8,3 +8,13 @@ export const AppWrapper = styled.div`
     width: 66.6666666667%;
   }
 `
+
+export const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+`
+
+export const Column = styled.div`
+  display: flex;
+  flex-direction: column;
+`

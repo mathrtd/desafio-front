@@ -3,9 +3,11 @@ import { DefaultSearchBar, IconWrapper, SearchBarWrapper } from './styles';
 import { SearchBarProps } from './types';
 import searchIconPath from 'src/assets/ic_busca_menor.svg';
 
-const SearchBar: React.FC<SearchBarProps> = ({ label, value, ...props }) => {
+const SearchBar: React.FC<SearchBarProps> = ({ label, ...props }) => {
   return (
-    <SearchBarWrapper>
+    <SearchBarWrapper
+      {...props}
+    >
       <IconWrapper>
         <img src={searchIconPath}/>
       </IconWrapper>
