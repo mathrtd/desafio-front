@@ -24,3 +24,18 @@ export const CharactersFilters = styled.div`
     align-items: center;
   }
 `
+
+export const Pagination = styled.div`
+  overflow-wrap: break-word;
+  margin-top: 16px;
+  a {
+    cursor: pointer;
+    margin-left: 4px;
+    margin-right: 4px;
+
+    &.selected {
+      text-decoration: underline;
+      font-weight: bold;
+    }
+  }
+`

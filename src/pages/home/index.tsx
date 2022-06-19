@@ -4,7 +4,7 @@ import InfoCard from "src/components/InfoCard";
 import LoadingSpinner from "src/components/LoadingSpinner";
 import SearchBar from "src/components/SearchBar";
 import { ApiService } from "src/services/api_service";
-import { CharactersFilters, CharactersWrapper, HomeWrapper } from "./styles";
+import { CharactersFilters, CharactersWrapper, HomeWrapper, Pagination } from "./styles";
 import { CharacterDataWrapperProps, CharacterProps } from "src/models/character";
 import logoPath from 'src/assets/logo.svg';
 import CheckInput from "src/components/CheckInput";
@@ -18,6 +18,8 @@ import { HomeParamsProps } from "./types";
 import useIsMounting from "src/hooks/useIsMounting";
 import favoriteCharacters from "src/helpers/favoriteCharacters";
 
+const DEFAULT_PAGE_SIZE = 20;
+
 let apiCharacters: CharacterProps[] | undefined;
 
 const Home: React.FC = ({ ...props }) => {
@@ -29,6 +31,7 @@ const Home: React.FC = ({ ...props }) => {
   const [searchValue, setSearchValue] = useState<string>('');
   const [reverseOrder, setReverseOrder] = useState<boolean>(false);
   const [onlyFavorites, setOnlyFavorites] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const navigate = useNavigate();
   const { state } = useLocation();
 
@@ -47,7 +50,7 @@ const Home: React.FC = ({ ...props }) => {
 
   useEffect(() => {
     if (!isMounting) {
-      let timer = setTimeout(() => getCharacters({ nameStartsWith: searchValue, reverse: reverseOrder }), 500);
+      let timer = setTimeout(() => getCharacters({ nameStartsWith: searchValue, reverse: reverseOrder, page: currentPage }), 500);
       return () => {
         clearTimeout(timer);
       };
@@ -56,9 +59,9 @@ const Home: React.FC = ({ ...props }) => {
 
   useEffect(() => {
     if (!isMounting) {
-      getCharacters({ nameStartsWith: searchValue, reverse: reverseOrder })
+      getCharacters({ nameStartsWith: searchValue, reverse: reverseOrder, page: currentPage })
     }
-  }, [reverseOrder])
+  }, [reverseOrder, currentPage])
 
   useEffect(() => {
     if (!isMounting) {
@@ -77,10 +80,12 @@ const Home: React.FC = ({ ...props }) => {
   }, [searchValue, reverseOrder])
 
   // api calls
-  const getCharacters = async (params?: { nameStartsWith?: string, offset?: number, reverse?: boolean }) => {
+  const getCharacters = async (params?: { nameStartsWith?: string, page?: number, reverse?: boolean }) => {
     let localParams = {
       ...(params?.nameStartsWith && params?.nameStartsWith?.length > 0 ? { nameStartsWith: params?.nameStartsWith } : {}),
-      orderBy: params?.reverse ? '-name' : 'name'
+      orderBy: params?.reverse ? '-name' : 'name',
+      offset: params?.page ? (params?.page - 1) * DEFAULT_PAGE_SIZE : 0,
+      limit: DEFAULT_PAGE_SIZE,
     }
     setIsLoading(true);
     let resp = await ApiService.api.get(
@@ -120,6 +125,10 @@ const Home: React.FC = ({ ...props }) => {
     navigate(`details/${characterId}`);
   }
 
+  const handlePageSelected = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  }
+
   return <HomeWrapper>
     <img src={logoPath} />
     <h2>EXPLORE O UNIVERSO</h2>
@@ -130,7 +139,15 @@ const Home: React.FC = ({ ...props }) => {
       onChange={handleSearchBarChange}
     />
     <CharactersFilters>
-      <b>Encontrados {onlyFavorites ? favoriteCharacters().length : characterTotal ?? 0} heróis</b>
+      <div>
+        <b>Encontrados {onlyFavorites ? favoriteCharacters().length : characterTotal ?? 0} heróis</b><br />
+        {
+          onlyFavorites
+            ? null
+            : <i>Página {currentPage} de {Math.ceil((characterTotal ?? 0) / DEFAULT_PAGE_SIZE)}</i>
+        }
+
+      </div>
       <div className="subgroup">
         <CheckInput
           label="Ordenar por nome - A/Z"
@@ -146,32 +163,52 @@ const Home: React.FC = ({ ...props }) => {
     {
       isLoading
         ? <LoadingSpinner />
-        : hasError 
+        : hasError
           ? <b>Ops, tivemos um problema. Tente atualizar a página.</b>
           : <CharactersWrapper>
-              {/* <GridWrapper> */}
-              <Grid
-                columnCount={4}
-                gap="32px"
-                minWidth="160px"
-              >
-                {
-                  characters?.map((character: CharacterProps, index: number) => {
-                    return <InfoCard
-                      key={index}
-                      cardId={character.id}
-                      title={character.name}
-                      imageUrl={`${character.thumbnail?.path}.${character.thumbnail?.extension}`}
-                      favorite={isCharacterFavorite(character.id)}
-                      onFavoriteChange={(newValue, _) => handleFavoriteChange(newValue, character)}
-                      onClick={handleCharacterCardClick}
-                      showFavoriteIcon
-                    />
-                  })
-                }
-              </Grid>
-              {/* </GridWrapper> */}
-            </CharactersWrapper>
+            {/* <GridWrapper> */}
+            <Grid
+              columnCount={4}
+              gap="32px"
+              minWidth="160px"
+            >
+              {
+                characters?.map((character: CharacterProps, index: number) => {
+                  return <InfoCard
+                    key={index}
+                    cardId={character.id}
+                    title={character.name}
+                    imageUrl={`${character.thumbnail?.path}.${character.thumbnail?.extension}`}
+                    favorite={isCharacterFavorite(character.id)}
+                    onFavoriteChange={(newValue, _) => handleFavoriteChange(newValue, character)}
+                    onClick={handleCharacterCardClick}
+                    showFavoriteIcon
+                  />
+                })
+              }
+            </Grid>
+            {
+              onlyFavorites
+                ? null
+                : <Pagination>
+                  <b>Páginas:</b>
+                  {
+                    Array.from(Array(Math.ceil((characterTotal ?? 0) / DEFAULT_PAGE_SIZE)), (_, index) => {
+                      return (
+                        <a
+                          className={index + 1 === currentPage ? 'selected' : ''}
+                          onClick={() => handlePageSelected(index + 1)}
+                        >
+                          {index + 1}
+                        </a>
+                      )
+                    })
+                  }
+                </Pagination>
+            }
+
+            {/* </GridWrapper> */}
+          </CharactersWrapper>
     }
   </HomeWrapper>
 }
