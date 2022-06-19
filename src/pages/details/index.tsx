@@ -5,7 +5,7 @@ import InfoCard from "src/components/InfoCard";
 import { CharacterDataWrapperProps, CharacterProps } from "src/models/character";
 import { ComicDataContainerProps, ComicDataWrapperProps, ComicProps } from "src/models/comic";
 import { ApiService } from "src/services/api_service";
-import { CharacterDetailsHeader, CharacterDetailsSection, ComicImage, ComicWrapper, DetailsWrapper, LatestReleasesSection } from "./styles";
+import { CharacterDetailsHeader, CharacterDetailsSection, CharacterImage, ComicImage, ComicWrapper, DetailsWrapper, LatestReleasesSection } from "./styles";
 import { Column, Row } from "src/styles";
 import updateFavoriteCharacters from "src/helpers/updateFavoriteCharacters";
 import isCharacterFavorite from "src/helpers/isCharacterFavorite";
@@ -112,64 +112,66 @@ const Details: React.FC = () => {
         : hasError
           ? <b>Ops, tivemos um problema. Tente atualizar a página.</b>
           : <>
-              <CharacterDetailsSection
-                imageUrl={`${character?.thumbnail?.path}.${character?.thumbnail?.extension}`}
-              >
-                <div className="left-section">
-                  <h1>
-                    {character?.name}
-                    <div
-                      className="favorite-icon-wrapper"
-                      onClick={() => handleFavoriteChange()}
+            <CharacterDetailsSection>
+              <div className="left-section">
+                <h1>
+                  {character?.name}
+                  <div
+                    className="favorite-icon-wrapper"
+                    onClick={() => handleFavoriteChange()}
+                  >
+                    <img className="default-favorite-icon" src={isFavorite ? favIconPath : favIconOutlinePath} />
+                    <img className="hover-favorite-icon" src={favIconHoverPath} />
+                  </div>
+                </h1>
+                <p>{character?.description && character?.description?.length > 0 ? character.description : 'Personagem sem descrição.'}</p>
+                <Column className="metrics">
+                  <Row className="counters">
+                    <div>
+                      <span>Quadrinhos</span><br />
+                      <img src={comicsIconPath} />{comicsTotal}
+                    </div>
+                    <div>
+                      <span>Filmes</span><br />
+                      <img src={moviesIconPath} />6
+                    </div>
+                  </Row>
+                  <div>
+                    Rating: {Array.from(Array(5), (_, index) => <img key={index} src={starIconPath}></img>)}
+                  </div>
+                  <div>
+                    Último quadrinho: {new Date(comics?.[0]?.dates?.find((date) => date.type === 'onsaleDate')?.date ?? Date()).toLocaleDateString('pt-BR')}
+                  </div>
+                </Column>
+              </div>
+              <div className="right-section">
+                <CharacterImage imageUrl={`${character?.thumbnail?.path}.${character?.thumbnail?.extension}`} />
+              </div>
+            </CharacterDetailsSection>
+            <LatestReleasesSection>
+              <h4>Últimos lançamentos</h4>
+              {
+                comics && comics?.length > 0
+                  ? <Grid
+                      columnCount={6}
+                      gap="32px"
+                      minWidth="160px"
                     >
-                      <img className="default-favorite-icon" src={isFavorite ? favIconPath : favIconOutlinePath} />
-                      <img className="hover-favorite-icon" src={favIconHoverPath} />
-                    </div>
-                  </h1>
-                  <p>{character?.description ?? 'N/A'}</p>
-                  <Column className="metrics">
-                    <Row className="counters">
-                      <div>
-                        <span>Quadrinhos</span><br />
-                        <img src={comicsIconPath} />{comicsTotal}
-                      </div>
-                      <div>
-                        <span>Filmes</span><br />
-                        <img src={moviesIconPath} />6
-                      </div>
-                    </Row>
-                    <div>
-                      Rating: {Array.from(Array(5), (_, index) => <img key={index} src={starIconPath}></img>)}
-                    </div>
-                    <div>
-                      Último quadrinho: {new Date(comics?.[0].dates?.find((date) => date.type === 'onsaleDate')?.date ?? Date()).toLocaleDateString('pt-BR')}
-                    </div>
-                  </Column>
-                </div>
-                <div className="right-section">
-                  {/* <img src={`${character?.thumbnail?.path}.${character?.thumbnail?.extension}`}/> */}
-                </div>
-              </CharacterDetailsSection>
-              <LatestReleasesSection>
-                <h4>Últimos lançamentos</h4>
-                <Grid
-                  columnCount={6}
-                  gap="32px"
-                  minWidth="160px"
-                >
-                  {
-                    comics?.map((comic, index) => {
-                      return <InfoCard
-                        key={index}
-                        title={comic.title}
-                        imageUrl={`${comic.thumbnail?.path}.${comic.thumbnail?.extension}`}
-                        backgroundPosition={'top'}
-                      />
-                    })
-                  }
-                </Grid>
-              </LatestReleasesSection>
-            </>
+                      {
+                        comics?.map((comic, index) => {
+                          return <InfoCard
+                            key={index}
+                            title={comic.title}
+                            imageUrl={`${comic.thumbnail?.path}.${comic.thumbnail?.extension}`}
+                            backgroundPosition={'top'}
+                          />
+                        })
+                      }
+                    </Grid>
+                  : 'Nenhum lançamento encontrado.'
+                }
+            </LatestReleasesSection>
+          </>
     }
   </DetailsWrapper>
 }

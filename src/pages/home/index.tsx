@@ -16,6 +16,7 @@ import isCharacterFavorite from "src/helpers/isCharacterFavorite";
 import updateFavoriteCharacters from "src/helpers/updateFavoriteCharacters";
 import { HomeParamsProps } from "./types";
 import useIsMounting from "src/hooks/useIsMounting";
+import favoriteCharacters from "src/helpers/favoriteCharacters";
 
 let apiCharacters: CharacterProps[] | undefined;
 
@@ -71,6 +72,10 @@ const Home: React.FC = ({ ...props }) => {
     }
   }, [onlyFavorites])
 
+  useEffect(() => {
+    setOnlyFavorites(false)
+  }, [searchValue, reverseOrder])
+
   // api calls
   const getCharacters = async (params?: { nameStartsWith?: string, offset?: number, reverse?: boolean }) => {
     let localParams = {
@@ -125,7 +130,7 @@ const Home: React.FC = ({ ...props }) => {
       onChange={handleSearchBarChange}
     />
     <CharactersFilters>
-      <b>Encontrados {characterTotal ?? 0} heróis</b>
+      <b>Encontrados {onlyFavorites ? favoriteCharacters().length : characterTotal ?? 0} heróis</b>
       <div className="subgroup">
         <CheckInput
           label="Ordenar por nome - A/Z"

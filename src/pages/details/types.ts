@@ -2,6 +2,6 @@ export interface ComicImageProps {
   imageUrl?: string;
 }
 
-export interface CharacterDetailsSectionProps {
+export interface CharacterImageProps {
   imageUrl?: string;
 }

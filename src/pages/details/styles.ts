@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { CharacterDetailsSectionProps, ComicImageProps } from './types';
+import { CharacterImageProps, ComicImageProps } from './types';
 
 export const DetailsWrapper = styled.div`
   display: flex;
@@ -18,7 +18,7 @@ export const CharacterDetailsHeader = styled.div`
   }
 `
 
-export const CharacterDetailsSection = styled.section<CharacterDetailsSectionProps>`
+export const CharacterDetailsSection = styled.section`
   width: 100%;
   display: flex;
 
@@ -63,12 +63,15 @@ export const CharacterDetailsSection = styled.section<CharacterDetailsSectionPro
 
   .right-section {
     flex: 2;
-    width: 100%;
-    height: 320px;
-    background-image: url(${props => props.imageUrl});
-    background-size: cover;
-    background-position: center;
   }
+`
+
+export const CharacterImage = styled.div<CharacterImageProps>`
+  width: 100%;
+  height: 320px;
+  background-image: url(${props => props.imageUrl});
+  background-size: cover;
+  background-position: center;
 `
 
 export const LatestReleasesSection = styled.section`
