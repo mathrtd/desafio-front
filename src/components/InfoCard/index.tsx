@@ -34,8 +34,8 @@ const InfoCard: React.FC<InfoCardProps> = ({ ...props }) => {
                   props.onFavoriteChange?.(!props.favorite ?? false, props.cardId)
                 }}
               >
-                <img className="default-favorite-icon" src={props.favorite ? favIconPath : favIconOutlinePath} />
-                <img className="hover-favorite-icon" src={favIconHoverPath} />
+                <img alt="favorite icon" className="default-favorite-icon" src={props.favorite ? favIconPath : favIconOutlinePath} />
+                <img alt="favorite icon" className="hover-favorite-icon" src={favIconHoverPath} />
               </FavoriteIconWrapper>
             : null
         }

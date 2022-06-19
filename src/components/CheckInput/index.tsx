@@ -1,4 +1,3 @@
-import { useRef } from 'react';
 import { Label } from './styles';
 import { CheckInputProps } from './types';
 import toggleOnPath from 'src/assets/toggle_on.svg';
@@ -11,7 +10,6 @@ const CheckInput: React.FC<CheckInputProps> = ({
   onCheckChange,
   ...props
 }) => {
-  const inputNode = useRef<HTMLInputElement>(null);
   const handleOnClick = () => {
     let newChecked = !checked;
     onCheckChange?.(newChecked ?? false, name);
@@ -24,7 +22,7 @@ const CheckInput: React.FC<CheckInputProps> = ({
       >
         {label}
         {
-          <img src={checked ? toggleOnPath : toggleOffPath} />
+          <img src={checked ? toggleOnPath : toggleOffPath} alt="" />
         }
       </Label>
     </div>

@@ -9,7 +9,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ label, ...props }) => {
       {...props}
     >
       <IconWrapper>
-        <img src={searchIconPath}/>
+        <img alt="search icon" src={searchIconPath}/>
       </IconWrapper>
       <DefaultSearchBar
         {...props}

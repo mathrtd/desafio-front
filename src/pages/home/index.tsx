@@ -130,7 +130,7 @@ const Home: React.FC = ({ ...props }) => {
   }
 
   return <HomeWrapper>
-    <img src={logoPath} />
+    <img alt="marvel logo" src={logoPath} />
     <h2>EXPLORE O UNIVERSO</h2>
     <p>Mergulhe no domínio deslumbrante de todos os personagens clássicos que você ama - e aqueles que você descobrirá em breve!</p>
     <SearchBar
@@ -155,7 +155,7 @@ const Home: React.FC = ({ ...props }) => {
           onCheckChange={handleCheckInputChange}
         />
         <div onClick={() => handleFavoritesFilterChange()}>
-          <img src={onlyFavorites ? favIconPath : favIconOutlinePath}></img>
+          <img alt="favorite icon" src={onlyFavorites ? favIconPath : favIconOutlinePath}></img>
           Somente favoritos
         </div>
       </div>
@@ -196,6 +196,7 @@ const Home: React.FC = ({ ...props }) => {
                     Array.from(Array(Math.ceil((characterTotal ?? 0) / DEFAULT_PAGE_SIZE)), (_, index) => {
                       return (
                         <a
+                          href='#'
                           className={index + 1 === currentPage ? 'selected' : ''}
                           onClick={() => handlePageSelected(index + 1)}
                         >

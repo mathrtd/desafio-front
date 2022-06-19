@@ -5,7 +5,7 @@ import InfoCard from "src/components/InfoCard";
 import { CharacterDataWrapperProps, CharacterProps } from "src/models/character";
 import { ComicDataContainerProps, ComicDataWrapperProps, ComicProps } from "src/models/comic";
 import { ApiService } from "src/services/api_service";
-import { CharacterDetailsHeader, CharacterDetailsSection, CharacterImage, ComicImage, ComicWrapper, DetailsWrapper, LatestReleasesSection } from "./styles";
+import { CharacterDetailsHeader, CharacterDetailsSection, CharacterImage, DetailsWrapper, LatestReleasesSection } from "./styles";
 import { Column, Row } from "src/styles";
 import updateFavoriteCharacters from "src/helpers/updateFavoriteCharacters";
 import isCharacterFavorite from "src/helpers/isCharacterFavorite";
@@ -70,7 +70,7 @@ const Details: React.FC = () => {
       let characterDataWrapper: CharacterDataWrapperProps = resp.data
       return characterDataWrapper.data?.results?.[0]
     }
-    throw 'erro';
+    throw Error(resp.toString());
   }
 
   const getCharacterComics = async (id: number): Promise<ComicDataContainerProps | undefined> => {
@@ -79,7 +79,7 @@ const Details: React.FC = () => {
       let characterDataWrapper: ComicDataWrapperProps = resp.data
       return characterDataWrapper.data
     }
-    throw 'erro';
+    throw Error(resp.toString());
   }
 
   // input handlers
@@ -98,6 +98,7 @@ const Details: React.FC = () => {
   return <DetailsWrapper>
     <CharacterDetailsHeader>
       <img
+        alt="marvel logo"
         src={logoPath}
         onClick={() => navigate('/')}
       />
@@ -120,8 +121,8 @@ const Details: React.FC = () => {
                     className="favorite-icon-wrapper"
                     onClick={() => handleFavoriteChange()}
                   >
-                    <img className="default-favorite-icon" src={isFavorite ? favIconPath : favIconOutlinePath} />
-                    <img className="hover-favorite-icon" src={favIconHoverPath} />
+                    <img alt="favorite icon" className="default-favorite-icon" src={isFavorite ? favIconPath : favIconOutlinePath} />
+                    <img alt="favorite icon" className="hover-favorite-icon" src={favIconHoverPath} />
                   </div>
                 </h1>
                 <p>{character?.description && character?.description?.length > 0 ? character.description : 'Personagem sem descrição.'}</p>
@@ -129,15 +130,15 @@ const Details: React.FC = () => {
                   <Row className="counters">
                     <div>
                       <span>Quadrinhos</span><br />
-                      <img src={comicsIconPath} />{comicsTotal}
+                      <img alt="comics icon" src={comicsIconPath} />{comicsTotal}
                     </div>
                     <div>
                       <span>Filmes</span><br />
-                      <img src={moviesIconPath} />6
+                      <img alt="movies icon" src={moviesIconPath} />6
                     </div>
                   </Row>
                   <div>
-                    Rating: {Array.from(Array(5), (_, index) => <img key={index} src={starIconPath}></img>)}
+                    Rating: {Array.from(Array(5), (_, index) => <img alt="favorite star icon" key={index} src={starIconPath}></img>)}
                   </div>
                   <div>
                     Último quadrinho: {new Date(comics?.[0]?.dates?.find((date) => date.type === 'onsaleDate')?.date ?? Date()).toLocaleDateString('pt-BR')}
