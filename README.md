@@ -1,6 +1,6 @@
-![CI/CD](https://github.com/mathrtd/desafio-front/workflows/build-and-deploy/badge.svg)
+[![CI/CD](https://codecov.io/gh/mathrtd/desafio-front/workflows/build-and-deploy/badge.svg)](https://codecov.io/gh/mathrtd/desafio-front)
 
-![gh-pages](https://github.com/mathrtd/desafio-front/workflows/pages/pages-build-deployment/badge.svg)
+[![gh-pages](https://codecov.io/gh/mathrtd/desafio-front/workflows/pages/pages-build-deployment/badge.svg)](https://codecov.io/gh/mathrtd/desafio-front)
 
 # Marvel App
 
