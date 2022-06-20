@@ -1,5 +1,9 @@
 [![codecov](https://codecov.io/gh/mathrtd/desafio-front/branch/master/graph/badge.svg)](https://codecov.io/gh/mathrtd/desafio-front)
 
+![CI/CD](https://github.com/mathrtd/desafio-front/workflows/build-and-deploy/badge.svg)
+
+![gh-pages](https://github.com/mathrtd/desafio-front/workflows/pages/pages-build-deployment/badge.svg)
+
 # Marvel App
 
 Projeto desenvolvido utilizando [React](https://pt-br.reactjs.org/) onde se é consumida uma [API pública](https://developer.marvel.com/docs) com a finalidade de apresentar os seus conteúdos de maneira amigável ao usuário comum.
