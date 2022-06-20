@@ -28,7 +28,7 @@ Projeto desenvolvido utilizando [React](https://pt-br.reactjs.org/) onde se é c
 
 ### `npm start`
 
-O aplicativo é executado em modo de desenvolvimento, para utiliza-lo em seu browser basta acessar [http://localhost:3000](http://localhost:3000)
+O aplicativo é executado em modo de desenvolvimento, para utiliza-lo em seu browser basta acessar [http://localhost:3000/desafio-front](http://localhost:3000/desafio-front)
 
 ### `npm test`
 
