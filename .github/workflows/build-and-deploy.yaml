@@ -45,5 +45,5 @@ jobs:
           user_email: 'matheusrotondano@gmail.com'
           github_token: ${{ secrets.ACTIONS_DEPLOY_ACCESS_TOKEN }}
           repository: ${{ github.repository }}
-          ENDPOINT_PUBLIC_KEY: ${{secrets.ENDPOINT_PUBLIC_KEY}}
-          ENDPOINT_PRIVATE_KEY: ${{secrets.ENDPOINT_PRIVATE_KEY}}
+          ENDPOINT_PUBLIC_KEY: ${{ secrets.ENDPOINT_PUBLIC_KEY }}
+          ENDPOINT_PRIVATE_KEY: ${{ secrets.ENDPOINT_PRIVATE_KEY }}
