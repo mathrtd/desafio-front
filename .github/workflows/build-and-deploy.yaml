@@ -36,9 +36,14 @@ jobs:
           git config --global user.name $user_name
           git config --global user.email $user_email
           git remote set-url origin https://${github_token}@github.com/${repository}.git
+
+          echo REACT_APP_ENDPOINT_PUBLIC_KEY="$ENDPOINT_PUBLIC_KEY" >> .env.production
+          echo REACT_APP_ENDPOINT_PRIVATE_KEY="$ENDPOINT_PRIVATE_KEY" >> .env.production
           npm run deploy
         env:
           user_name: 'mathrtd'
           user_email: 'matheusrotondano@gmail.com'
           github_token: ${{ secrets.ACTIONS_DEPLOY_ACCESS_TOKEN }}
           repository: ${{ github.repository }}
+          ENDPOINT_PUBLIC_KEY: ${{secrets.ENDPOINT_PUBLIC_KEY}}
+          ENDPOINT_PRIVATE_KEY: ${{secrets.ENDPOINT_PRIVATE_KEY}}
