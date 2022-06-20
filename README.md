@@ -1,5 +1,3 @@
-[![codecov](https://codecov.io/gh/mathrtd/desafio-front/branch/master/graph/badge.svg)](https://codecov.io/gh/mathrtd/desafio-front)
-
 ![CI/CD](https://github.com/mathrtd/desafio-front/workflows/build-and-deploy/badge.svg)
 
 ![gh-pages](https://github.com/mathrtd/desafio-front/workflows/pages/pages-build-deployment/badge.svg)
