@@ -3,7 +3,7 @@ import { CardImageProps } from './types';
 
 export const InfoCardWrapper = styled.div<CardImageProps>`
   transition: 0.3s;
-  ${props => !!props.onClick ? 'cursor: pointer;' : ''}
+  ${props => props.onClick ? 'cursor: pointer;' : ''}
   width: 160px;
   box-shadow: 2px 2px 1rem rgba(0, 0, 0, 0.5);
 
@@ -11,7 +11,7 @@ export const InfoCardWrapper = styled.div<CardImageProps>`
   overflow: hidden;
 
   &:hover {
-    ${props => !!props.onClick ? 'box-shadow: 2px 2px 1rem rgba(0, 0, 0, 1);' : ''}
+    ${props => props.onClick ? 'box-shadow: 2px 2px 1rem rgba(0, 0, 0, 1);' : ''}
   }
 `
 

@@ -18,7 +18,7 @@ const InfoCard: React.FC<InfoCardProps> = ({ ...props }) => {
 
   return (
     <InfoCardWrapper
-      onClick={!!props.onClick ? (() => props.onClick?.(props.cardId)) : undefined}
+      onClick={props.onClick ? (() => props.onClick?.(props.cardId)) : undefined}
     >
       <CardImage
         imageUrl={localImageUrl}

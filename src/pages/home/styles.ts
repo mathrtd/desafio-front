@@ -28,10 +28,10 @@ export const CharactersFilters = styled.div`
 export const Pagination = styled.div`
   overflow-wrap: break-word;
   margin-top: 16px;
-  a {
+  button {
     cursor: pointer;
-    margin-left: 4px;
-    margin-right: 4px;
+    background-color: transparent;
+    border: 0;
 
     &.selected {
       text-decoration: underline;

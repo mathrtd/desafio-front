@@ -92,6 +92,7 @@ const Details: React.FC = () => {
       updateFavoriteCharacters(!isFavorite, character)
       setIsFavorite(!isFavorite)
     } catch (_) {
+      throw Error('erro');
     }
   }
 

@@ -195,13 +195,13 @@ const Home: React.FC = ({ ...props }) => {
                   {
                     Array.from(Array(Math.ceil((characterTotal ?? 0) / DEFAULT_PAGE_SIZE)), (_, index) => {
                       return (
-                        <a
-                          href='#'
+                        <button
+                          key={index}
                           className={index + 1 === currentPage ? 'selected' : ''}
                           onClick={() => handlePageSelected(index + 1)}
                         >
                           {index + 1}
-                        </a>
+                        </button>
                       )
                     })
                   }
