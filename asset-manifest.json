@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/desafio-front/static/css/main.abd64e84.css",
+    "main.js": "/desafio-front/static/js/main.171dccd7.js",
+    "static/media/logo.svg": "/desafio-front/static/media/logo.66aae77137a240c352d25d571db83759.svg",
+    "static/media/logo_menor.svg": "/desafio-front/static/media/logo_menor.55b92de41d1c81beaa69f33d1e167acd.svg",
+    "static/media/ic_trailer.svg": "/desafio-front/static/media/ic_trailer.a3eecf661918db93d1ef28ca4d3726dd.svg",
+    "static/media/ic_quadrinhos.svg": "/desafio-front/static/media/ic_quadrinhos.7e8c32136c710803f430e7ddd731fd6a.svg",
+    "static/media/ic_busca_menor.svg": "/desafio-front/static/media/ic_busca_menor.7d4fff01c3fd233f60ebadb0ffbfd665.svg",
+    "static/media/marvel_logo.svg": "/desafio-front/static/media/marvel_logo.8bc2d60ec21c2e94a288deb5d18602a8.svg",
+    "static/media/toggle_off.svg": "/desafio-front/static/media/toggle_off.7f25c1abf6956c99bc768900888b30d9.svg",
+    "static/media/toggle_on.svg": "/desafio-front/static/media/toggle_on.5cff5fa5ba05802354b07ebf9df00d06.svg",
+    "static/media/avaliacao_on.svg": "/desafio-front/static/media/avaliacao_on.b50ecbbfb4e1d6138afa027902b97bfb.svg",
+    "static/media/favorito_02.svg": "/desafio-front/static/media/favorito_02.d84c4d2f159ae482a79d538255ec754a.svg",
+    "static/media/favorito_01.svg": "/desafio-front/static/media/favorito_01.4032fb6a35d9a756a3b67961522b5f0f.svg",
+    "static/media/favorito_03.svg": "/desafio-front/static/media/favorito_03.ff463c11cd808c460ddde196512165b8.svg",
+    "index.html": "/desafio-front/index.html",
+    "main.abd64e84.css.map": "/desafio-front/static/css/main.abd64e84.css.map",
+    "main.171dccd7.js.map": "/desafio-front/static/js/main.171dccd7.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.abd64e84.css",
+    "static/js/main.171dccd7.js"
+  ]
+}
