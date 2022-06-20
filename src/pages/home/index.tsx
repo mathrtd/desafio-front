@@ -50,7 +50,13 @@ const Home: React.FC = ({ ...props }) => {
 
   useEffect(() => {
     if (!isMounting) {
-      let timer = setTimeout(() => getCharacters({ nameStartsWith: searchValue, reverse: reverseOrder, page: currentPage }), 500);
+      let timer = setTimeout(() => { 
+        if (currentPage === 1) {
+          getCharacters({ nameStartsWith: searchValue, reverse: reverseOrder, page: 1 })
+        } else {
+          setCurrentPage(1);
+        }
+      }, 500);
       return () => {
         clearTimeout(timer);
       };
