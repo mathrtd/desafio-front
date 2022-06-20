@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/desafio-front/static/css/main.abd64e84.css",
-    "main.js": "/desafio-front/static/js/main.6f2cd829.js",
+    "main.js": "/desafio-front/static/js/main.9390b4ad.js",
     "static/media/logo.svg": "/desafio-front/static/media/logo.66aae77137a240c352d25d571db83759.svg",
     "static/media/logo_menor.svg": "/desafio-front/static/media/logo_menor.55b92de41d1c81beaa69f33d1e167acd.svg",
     "static/media/ic_trailer.svg": "/desafio-front/static/media/ic_trailer.a3eecf661918db93d1ef28ca4d3726dd.svg",
@@ -16,10 +16,10 @@
     "static/media/favorito_03.svg": "/desafio-front/static/media/favorito_03.ff463c11cd808c460ddde196512165b8.svg",
     "index.html": "/desafio-front/index.html",
     "main.abd64e84.css.map": "/desafio-front/static/css/main.abd64e84.css.map",
-    "main.6f2cd829.js.map": "/desafio-front/static/js/main.6f2cd829.js.map"
+    "main.9390b4ad.js.map": "/desafio-front/static/js/main.9390b4ad.js.map"
   },
   "entrypoints": [
     "static/css/main.abd64e84.css",
-    "static/js/main.6f2cd829.js"
+    "static/js/main.9390b4ad.js"
   ]
 }
